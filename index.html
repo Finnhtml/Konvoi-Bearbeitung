@@ -263,12 +263,35 @@
             margin-bottom: 25px;
         }
         .faq-item h3 {
+            position: relative;
             color: var(--christmas-green);
             font-size: 1.4em;
-            border-bottom: 2px solid var(--christmas-gold);
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
+            padding-top: 14px;      /* Platz für die grüne Linie oberhalb */
+    padding-bottom: 22px;   /* Platz für die rote Wellenlinie darunter */
+    margin-bottom: 18px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+/* grüne Linie oberhalb (vollflächig) */
+.faq-item h3::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 6px;
+    background: var(--christmas-green);
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    transform: translateY(-100%); /* oberhalb der Überschrift */
+}
+
+/* rote gezackte/wellige Linie darunter (mit SVG als wiederholtes Hintergrundbild) */
+.faq-item h3::after {
+    /* Rote Wellenlinie entfernt */
+    display: none;
+}
 
         .hashtag {
             background-color: var(--christmas-gold);
@@ -567,6 +590,13 @@ Der Weihnachtskonvoi ist mehr als nur eine Lichterfahrt. Er ist ein Zeichen der 
         <p class="image-note">
         </p>
 
+        <!-- Flyer: Direktlink zum Google Drive-Ordner -->
+        <div id="flyer" style="margin:20px 0;">
+          <h2>Flyer herunterladen</h2>
+          <p class="section-description">Der offizielle Flyer ist im Google Drive-Ordner abgelegt. Öffne den Ordner, um PDF oder Bilder herunterzuladen.</p>
+          <p><a class="button" href="https://drive.google.com/drive/folders/12zAw-2B45yGI-J9G37iQAkZ4jLxTGpQP" target="_blank" rel="noopener">Flyer im Google Drive öffnen</a></p>
+        </div>
+
         <h2>Streckenverlauf & Zeitplan</h2>
         <p class="section-description">
 Hier finden Sie den voraussichtlichen Streckenverlauf und die geschätzten Ankunftszeiten, damit Sie den Konvoi optimal miterleben können.        </p>
@@ -649,9 +679,9 @@ Verpassen Sie nicht, wo unser festlicher Konvoi gerade unterwegs ist! Auf der Ka
             </li>
         </ul>
 
-        --- 
+        
 
-        <h2>(KI Textbeispiel:) Ihre Momente – Teilen Sie Ihre Fotos und Videos!</h2>
+        <h2>Ihre Momente – Teilen Sie Ihre Fotos und Videos!</h2>
         <p class="section-description">
 Sie haben ein tolles Foto oder Video? Nutzen Sie den sichtbaren Hashtag:             
             <strong>#WeihnachtskonvoiEfringenKirchen</strong> oder taggen Sie uns auf Instagram. Alle Hinweise und Links finden Sie direkt oberhalb der Seite.
