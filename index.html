@@ -25,7 +25,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-image: url('https://ais.badische-zeitung.de/piece/0b/de/7e/a2/199130786.jpg');
+            background-image: url('https://github.com/Finnhtml/Weihnachtskonvoi-Bilder/blob/main/Background.jpeg?raw=true');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -187,8 +187,8 @@
         }
         .image-gallery img {
             width: 100%;
-            max-width: 300px;
-            height: 200px;
+            max-width: 400px;
+            height: 300px;
             object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -204,6 +204,15 @@
             font-size: 0.9em;
             color: #777;
             margin-bottom: 40px;
+        }
+
+        /* Kleiner Hinweis unter der Galerie */
+        .image-hint {
+            font-size: 0.95em;
+            color: #555;
+            margin-top: -8px;
+            margin-bottom: 30px;
+            font-style: italic;
         }
 
         iframe {
@@ -537,6 +546,55 @@
             .cookie-banner { flex-direction: column; align-items: stretch; }
             .cookie-banner .btn { width: 100%; }
         }
+
+        /* Lightbox styles (neu) */
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.85);
+            z-index: 10000;
+            padding: 20px;
+        }
+        .lightbox-overlay.active { display: flex; }
+        .lightbox-content {
+            max-width: 96%;
+            max-height: 92%;
+            text-align: center;
+            position: relative;
+        }
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 84vh;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+        .lightbox-close {
+            position: absolute;
+            right: -6px;
+            top: -6px;
+            background: #111;
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.4em;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+        }
+        .lightbox-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: var(--christmas-gold);
+            color: #222;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -583,12 +641,13 @@ Der Weihnachtskonvoi ist mehr als nur eine Lichterfahrt. Er ist ein Zeichen der 
 
         <h2> Impressionen vergangener Jahre</h2>
         <div class="image-gallery">
-            <img class="wappen" src="https://upload.wikimedia.org/wikipedia/commons/d/d1/DEU_Efringen-Kirchen_COA.svg" alt="Wappen von Efringen-Kirchen">
-            <img class="wappen" src="https://upload.wikimedia.org/wikipedia/commons/d/d1/DEU_Efringen-Kirchen_COA.svg" alt="Wappen von Efringen-Kirchen">
-            <img class="wappen" src="https://upload.wikimedia.org/wikipedia/commons/d/d1/DEU_Efringen-Kirchen_COA.svg" alt="Wappen von Efringen-Kirchen">
+            <img class="Bild" src="https://github.com/Finnhtml/Weihnachtskonvoi-Bilder/blob/main/Bild%201.jpeg?raw=true" alt="Ein Erwachsener hält ein Kind auf dem Arm, das einem hell beleuchteten Feuerwehrfahrzeug der Freiwilligen Feuerwehr Efringen-Kirchen zuwinkt, während der Weihnachtskonvoi durch eine Wohnstraße fährt.">
+            <img class="Bild" src="https://github.com/Finnhtml/Weihnachtskonvoi-Bilder/blob/main/Bild%202.jpeg?raw=true" alt="Feuerwehrfahrzeuge der Freiwilligen Feuerwehr Efringen-Kirchen fahren als Teil des Weihnachtskonvois in Kolonne mit Blaulicht auf einer Landstraße bei Dämmerung.">
+            <img class="Bild" src="https://github.com/Finnhtml/Weihnachtskonvoi-Bilder/blob/main/Bild%203.jpeg?raw=true" alt="Beeindruckende, lange Kolonne von Einsatzfahrzeugen der Feuerwehr und anderer Organisationen mit eingeschaltetem Blaulicht in der Dunkelheit, als Teil des festlichen Weihnachtskonvois Efringen-Kirchen.">
         </div>
         <p class="image-note">
         </p>
+        <p class="image-hint">Klicke ein Bild an, um es größer zu öffnen. </p>
 
         <!-- Flyer: Direktlink zum Google Drive-Ordner -->
         <div id="flyer" style="margin:20px 0;">
@@ -714,7 +773,7 @@ Sie haben ein tolles Foto oder Video? Nutzen Sie den sichtbaren Hashtag:
         const countdownElement = document.getElementById('countdown');
         // VORSICHT: Dies ist ein KI-Beispiel. Das Datum wurde auf den 21.12.2025 17:00:00 Uhr gesetzt.
         // Bitte das Datum und die Uhrzeit des Konvois hier anpassen.
-        const countdownDate = new Date("December 21, 2025 16:45:00").getTime();
+        const countdownDate = new Date("December 21, 2025 17:45:00").getTime();
         
         const updateCountdown = setInterval(function() {
             const now = new Date().getTime();
@@ -829,6 +888,72 @@ Sie haben ein tolles Foto oder Video? Nutzen Sie den sichtbaren Hashtag:
             </div>
         </div>
     </footer>
+
+    <!-- Lightbox HTML (wird per JS gesteuert) -->
+    <div id="lightbox" class="lightbox-overlay" aria-hidden="true" role="dialog" aria-label="Bildvorschau">
+        <div class="lightbox-content">
+            <button class="lightbox-close" aria-label="Schließen">×</button>
+            <img class="lightbox-img" src="" alt="Vorschau">
+            <div>
+                <a class="lightbox-link" href="#" target="_blank" rel="noopener">Bild in neuem Tab öffnen</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Lightbox-Script (neu)
+    (function() {
+        function openLightbox(url, alt) {
+            const overlay = document.getElementById('lightbox');
+            const img = overlay.querySelector('.lightbox-img');
+            const link = overlay.querySelector('.lightbox-link');
+            img.src = url;
+            img.alt = alt || 'Bild';
+            link.href = url;
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            const overlay = document.getElementById('lightbox');
+            overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
+            const img = overlay.querySelector('.lightbox-img');
+            img.src = '';
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ziel: nur Galerie-Bilder (hier .image-gallery) anklickbar machen
+            const galleryImgs = document.querySelectorAll('.image-gallery img, .image-gallery .wappen');
+            galleryImgs.forEach(img => {
+                img.style.cursor = 'zoom-in';
+                img.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Wenn ein data-full vorhanden ist, nutze das (höhere Auflösung), sonst src
+                    const full = img.getAttribute('data-full') || img.src;
+                    openLightbox(full, img.alt);
+                });
+            });
+
+            // Schließen per Klick außerhalb Bildes oder auf Close-Button
+            const overlay = document.getElementById('lightbox');
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) closeLightbox();
+            });
+            const closeBtn = overlay.querySelector('.lightbox-close');
+            closeBtn.addEventListener('click', closeLightbox);
+
+            // Keyboard: Esc schließt
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const overlay = document.getElementById('lightbox');
+                    if (overlay.classList.contains('active')) closeLightbox();
+                }
+            });
+        });
+    })();
+    </script>
 
     </body>
 </html>
